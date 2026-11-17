@@ -369,3 +369,59 @@ body.expanded .nav ul a{color:#fff}
   .s4-copy .trio{flex-direction:column;gap:8px}
   .s4-copy .trio span::before,.s4-copy .trio span+span::before{content:"";display:inline-block;width:6px;height:6px;background:var(--accent);margin-right:12px;vertical-align:2px}
 }
+
+/* ---------- Mobile / tablet menu (≤ 900px, where the nav links are hidden) ----------
+   Kebab button in the fixed nav + full-screen menu that grows out of it. Markup is built by js/nav-menu.js
+   from the page's own nav links, nav CTA and footer community links. */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.mm-btn{display:none;pointer-events:auto;flex:none;width:42px;height:42px;margin-left:8px;align-items:center;justify-content:center;padding:0;
+  color:#fff;cursor:pointer;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.28);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:border-color .25s}
+.mm-btn:hover,.mm-btn:focus-visible{border-color:#fff;outline:none}
+.mm-dots{display:flex;flex-direction:column;gap:4px}
+.mm-dots i{display:block;width:3px;height:3px;border-radius:50%;background:#fff;transition:background .25s}
+.mm-btn:hover .mm-dots i:nth-child(2),.mm-btn:focus-visible .mm-dots i:nth-child(2){background:var(--accent)}
+
+.mm{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;background:#000;overflow-y:auto;overscroll-behavior:contain;
+  padding:12px var(--gutter) calc(24px + env(safe-area-inset-bottom));
+  clip-path:circle(0px at var(--ox,100%) var(--oy,0px));transition:clip-path .55s cubic-bezier(.7,0,.2,1)}
+.mm.on{clip-path:circle(160% at var(--ox,100%) var(--oy,0px))}
+.mm[hidden]{display:none}
+.mm-top{display:flex;align-items:center;justify-content:space-between;min-height:42px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.mm-close{display:flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.28);transition:border-color .25s}
+.mm-close:hover,.mm-close:focus-visible{border-color:#fff;outline:none}
+.mm-x{position:relative;width:16px;height:16px}
+.mm-x::before,.mm-x::after{content:"";position:absolute;left:0;top:50%;width:100%;height:1px;background:#fff;transform:rotate(45deg)}
+.mm-x::after{transform:rotate(-45deg)}
+.mm-eyebrow{display:flex;align-items:center;gap:10px;margin-top:clamp(28px,7vh,64px);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#929292}
+.mm-eyebrow::before{content:"";width:7px;height:7px;background:var(--accent)}
+.mm-list{margin-top:18px;border-top:1px solid #262626}
+.mm-list a{display:flex;align-items:center;gap:18px;padding:clamp(12px,2.4vh,20px) 0;border-bottom:1px solid #262626;
+  font-size:clamp(32px,9vw,56px);font-weight:400;letter-spacing:-.04em;line-height:1.05;color:#fff}
+.mm-list .n{flex:none;width:22px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--accent)}
+.mm-list .t{flex:1}
+.mm-list a[aria-current] .t::after{content:"";display:inline-block;width:.16em;height:.16em;margin-left:.08em;background:var(--accent)}
+.mm-list .arr{font-family:var(--mono);font-size:16px;color:#5f5f5f;transition:color .25s,transform .25s}
+.mm-list a:hover .arr,.mm-list a:focus-visible .arr{color:var(--accent);transform:translateX(4px)}
+.mm-list a:focus-visible{outline:none;background:rgba(255,255,255,.04)}
+.mm-foot{margin-top:auto;padding-top:32px}
+.mm-cta{display:flex;justify-content:space-between;width:100%}
+.mm-social{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:20px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#929292}
+.mm-social a{transition:color .2s}
+.mm-social a:hover{color:#fff}
+.mm-social .ext{margin-left:4px}
+/* links rise in one after another as the menu opens; leave together when it closes */
+.mm-list a,.mm-foot{opacity:0;transform:translateY(18px);transition:opacity .45s,transform .6s cubic-bezier(.2,.7,.2,1)}
+.mm.on .mm-list a,.mm.on .mm-foot{opacity:1;transform:none;transition-delay:calc(.16s + var(--i,0) * .05s)}
+.mm-list a{transition-property:opacity,transform,background}
+html.mm-lock,html.mm-lock body{overflow:hidden}
+@media (max-width: 900px){
+  .mm-btn{display:flex}
+  .nav .btn{margin-left:auto}
+}
+@media (max-width: 420px){
+  .nav .btn{display:none}                 /* the CTA moves into the menu on narrow phones */
+  .mm-btn{margin-left:auto}
+}
+@media (min-width: 901px){ .mm{display:none} }
+@media (prefers-reduced-motion: reduce){ .mm,.mm-list a,.mm-foot{transition:none} }
