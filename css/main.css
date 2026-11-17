@@ -1,0 +1,371 @@
+/* InsightX AI — landing page styles
+   Screen-height blocks use --app-h = the measured visible height (window.visualViewport, set in index.html),
+   falling back to svh / vh — so nothing sits behind mobile browser toolbars as they expand / collapse.
+   Sections: nav · hero (globe) · s2 staircase · s3 capabilities · s4 film + monitor · s5 TV pull-back · footer · sound toggle · responsive */
+
+:root{
+  --bg:#000; --fg:#fff; --dim:#5f5f5f; --mute:#8a8a8a; --line:rgba(255,255,255,.14); --accent:#A091F5;
+  --sans:"Geist", ui-sans-serif, system-ui, sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --gutter:clamp(16px, 3vw, 40px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--fg);height:100%}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+#gl{position:fixed;inset:0;width:100vw;height:100vh;display:block;cursor:grab;touch-action:pan-y}
+#gl.grabbing{cursor:grabbing}
+.shade{position:fixed;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.92) 0%, rgba(0,0,0,.55) 34%, rgba(0,0,0,0) 58%),
+    linear-gradient(0deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,0) 32%);}
+
+.hero{position:relative;height:100vh;height:100svh;height:var(--app-h, 100svh);min-height:640px;pointer-events:none}
+.hero a, .hero button{pointer-events:auto}
+
+/* NAV */
+.nav{position:fixed;z-index:5;pointer-events:none;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;
+  padding:12px var(--gutter);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.logo{display:flex;align-items:center;gap:12px;font-weight:400;letter-spacing:.08em;color:#fff}
+.logo-mark{width:33px;height:26px;flex:none;display:block;fill:#F8F1E7}
+.logo b{font-weight:800;color:var(--accent)}
+::selection{background:var(--accent);color:#000}
+.nav a{pointer-events:auto}
+.nav ul{display:flex;gap:32px;list-style:none}
+.nav ul a{color:var(--mute);transition:color .2s}
+.nav ul a:hover{color:#fff}
+
+
+/* COPY */
+.copy{position:absolute;left:var(--gutter);bottom:clamp(96px,13vh,150px);max-width:min(60vw,1020px)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+  display:flex;align-items:center;gap:12px;margin-bottom:28px}
+
+h1{font-weight:400;font-size:clamp(40px,5.56vw,96px);line-height:.98;letter-spacing:-.04em}
+h1 .noise{display:block;font-size:.9em;line-height:1.2;color:#4e4e4e;pointer-events:auto;cursor:default}
+h1 .sense{display:block;color:#fff;margin-top:10px}
+.caret{display:inline-block;width:.08em;height:.78em;background:var(--accent);margin-left:.08em;vertical-align:-.04em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.ch{position:relative;display:inline}
+.ch.pre{opacity:0}
+.ch.scr{color:transparent}
+.ch.scr::after{content:attr(data-g);position:absolute;left:0;top:0;font-family:var(--mono);font-size:.62em;line-height:1.55;color:#bdbdbd}
+.sense .ch.scr::after{color:#fff}
+
+.ctas{display:flex;gap:12px;margin-top:40px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:16px 22px;
+  display:inline-flex;align-items:center;gap:14px;border:1px solid #fff;transition:background .25s,color .25s}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#000}
+.btn-primary:hover{background:transparent;color:var(--accent)}
+.nav .btn-primary{background:#fff;border-color:#fff}
+.nav .btn-primary:hover{background:transparent;color:#fff}
+.btn-ghost{border-color:var(--line)}
+.btn-ghost:hover{border-color:#fff;background:#fff;color:#000}
+.btn .arr{transition:transform .25s}
+.btn:hover .arr{transform:translateX(4px)}
+
+/* HUD */
+.hud{position:absolute;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);line-height:1.8}
+.hud b{color:#fff;font-weight:400}
+.hud-r{right:var(--gutter);bottom:84px;text-align:right}
+.hud-r .row{display:flex;justify-content:flex-end;gap:14px}
+.hud-r .sep{height:1px;background:var(--line);margin:10px 0 10px auto;width:120px}
+
+.strip{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;
+  padding:18px var(--gutter);border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.strip .tags{display:flex;gap:28px}
+.strip .tags span::before{content:"■ ";font-size:7px;vertical-align:2px;color:var(--accent);margin-right:4px}
+.strip{padding-top:14px;padding-bottom:14px}
+.backed{display:flex;align-items:center;gap:28px}
+.backed-lbl{color:var(--mute)}
+.backed img{display:block;width:auto;opacity:.92}
+.backed .logo-nv{height:28px}
+.backed .logo-mantle{height:20px}
+
+/* city callouts */
+#labels{position:fixed;inset:0;pointer-events:none}
+.lbl{position:absolute;left:0;top:0;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:#fff;white-space:nowrap;opacity:0;transition:opacity .35s;will-change:transform,opacity}
+.lbl .dot{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border:1px solid #fff;background:#000}
+.lbl .ln{position:absolute;left:0;top:0;width:34px;height:1px;background:#fff;transform-origin:0 0;transform:rotate(-38deg)}
+.lbl .tag{position:absolute;left:27px;top:-36px;padding:5px 8px;background:#000;border:1px solid rgba(255,255,255,.35);line-height:1.5}
+.lbl .tag i{font-style:normal;color:var(--mute)}
+
+/* Section 2: as the page scrolls past the hero, the globe unwraps into a full-page map of text */
+.nav ul a,.strip{transition:color .6s}
+body.expanded .nav ul a{color:#fff}
+/* full-page dimming behind section 2 copy (matches Figma "Rectangle 1": 40% → 70% → 40% black); opacity is scrubbed by scroll */
+.xp-band{position:fixed;inset:0;pointer-events:none;opacity:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.7) 50%, rgba(0,0,0,.4) 100%)}
+
+/* Section 2 — "Staircase" layout (Figma: Section 2 / Option B): noise top-left, intelligence steps down to the right */
+.s2{position:relative;height:100vh;height:100svh;height:var(--app-h, 100svh);min-height:640px;pointer-events:none}
+.s2-head{position:absolute;left:var(--gutter);right:var(--gutter);top:21.1%}
+.s2 h2{font-weight:400;font-size:clamp(48px,7.78vw,128px);letter-spacing:-.04em;line-height:.96}
+.s2 h2 > span{display:block}
+.s2 h2 .l1{color:#929292}
+.s2 h2 .l2{color:#fff;text-align:right;margin-top:.21em}
+.s2 h2 .ch.dot:not(.scr){color:var(--accent)}
+.s2-foot{position:absolute;left:var(--gutter);right:var(--gutter);bottom:12.2%;padding-top:32px;border-top:1px solid #313131;
+  display:flex;gap:80px;align-items:flex-start}
+.s2 .lead{font-size:22px;line-height:1.4;letter-spacing:-.01em;color:var(--accent);white-space:nowrap}
+.s2 .lead b{font-weight:400;color:#fff;display:block}
+.s2 .body{font-family:var(--mono);font-size:12px;line-height:1.8;letter-spacing:.06em;text-transform:uppercase;color:#c3c7cd;width:380px;max-width:100%}
+.s2 .reveal{opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
+.s2.in .reveal{opacity:1;transform:none}
+.s2.in .reveal.d2{transition-delay:.35s}
+@media (max-width: 900px){
+  .s2-head{top:16%}
+  .s2-foot{flex-direction:column;gap:18px;bottom:9%;padding-top:24px}
+  .s2 .lead{font-size:18px;white-space:normal}
+}
+
+.s2-par{position:absolute;inset:0;will-change:transform,opacity}
+
+/* Section 3 — Core Capabilities: a black panel rises over section 2, then type stays pinned while cards stack */
+.s3{position:relative;z-index:2;height:500vh;background:#000}
+.s3-sticky{position:sticky;top:0;height:100vh;height:100svh;height:var(--app-h, 100svh);overflow:hidden}
+/* Figma: Section 3 — Core Capabilities (sticky · card 1 of 4) */
+.s3-left{position:absolute;left:var(--gutter);bottom:10.9%}
+.s3-head{font-weight:400;font-size:clamp(56px,7.78vw,128px);letter-spacing:-.04em;line-height:.96}
+.s3-head span{display:block;color:#929292}
+.s3-head span.w{color:#fff}
+.s3-line{display:flex;align-items:center;gap:24px;margin-top:46px;font-family:var(--mono);font-size:clamp(34px,4.86vw,80px);letter-spacing:-.03em;line-height:1;white-space:nowrap}
+.s3-line .cap-num{font-weight:500;color:var(--accent)}
+.s3-line .cap-type{display:flex;align-items:center;gap:6px}
+.cap-word{font-weight:300;color:#fff}
+.cap-caret{display:inline-block;width:2px;height:1.03em;background:var(--accent);animation:blink .7s steps(1) infinite}
+.cap-deck{position:absolute;inset:0;pointer-events:none}
+.cap-card{position:absolute;top:113px;right:var(--gutter);width:460px;height:320px;background:#0b0b0b;border:1px solid #262626;overflow:hidden;
+  transform-origin:center top;will-change:transform,filter;display:flex;align-items:flex-end}
+.cap-card canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.cap-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,11,0) 42%,rgba(11,11,11,.94) 80%);pointer-events:none}
+.cap-copy{position:relative;z-index:1;padding:20px 24px 22px}
+.cap-copy h3{font-size:24px;font-weight:500;letter-spacing:-.03em;margin:0 0 6px}
+.cap-copy p{font-size:13px;line-height:1.45;color:#929292;max-width:38ch}
+@media (max-width: 1180px){ .s3-head{font-size:6.6vw} .s3-line{font-size:4.2vw} }
+@media (max-width: 900px){
+  .s3-left{top:92px;bottom:auto}
+  .s3-head{font-size:13vw}
+  .s3-line{font-size:9vw;margin-top:20px;gap:14px}
+  .cap-card{top:auto;bottom:5vh;bottom:5svh;left:var(--gutter);right:var(--gutter);width:auto;height:min(320px,44svh);transform-origin:center bottom}
+}
+
+
+/* Section 4 — Meet InsightX Intelligence: full-screen live "film" montage behind the copy */
+.s4{position:relative;z-index:2;height:320vh;background:#000}
+.s4-pin{position:sticky;top:0;height:100vh;height:100svh;height:var(--app-h, 100svh);min-height:640px;overflow:hidden;--e:0;--t5:0;--tvw:0px}
+.s4-ui{position:absolute;inset:0;z-index:2}
+.s4-film{position:absolute;inset:0;width:100%;height:100%;display:block}
+.s4-vlayer{position:absolute;inset:0;overflow:hidden;opacity:0;pointer-events:none}
+.s4-vlayer video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);filter:grayscale(.72) contrast(1.12) brightness(.92)}
+.s4.direct .s4-vlayer{opacity:1}
+.s4.direct .s4-vlayer video.cur{opacity:1}
+.s4.direct .s4-vlayer{animation:vJit .2s steps(2) infinite}
+.s4.direct .s4-vlayer video{filter:grayscale(.92) contrast(1.3) brightness(.82) blur(.7px)}
+.s4.direct .s4-vlayer::before,.s4.direct .s4-vlayer::after{content:"";position:absolute;inset:-20px;z-index:1;pointer-events:none}
+.s4.direct .s4-vlayer::before{inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.42) 0 1px,rgba(0,0,0,0) 1px 3px),
+  linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.09) 48%,rgba(255,255,255,0) 56%);background-size:auto,100% 260%;
+  animation:vRoll 7s linear infinite,vFlick .13s steps(2) infinite}
+.s4.direct .s4-vlayer::after{opacity:.38;mix-blend-mode:screen;background-size:180px 180px;animation:vSnow .28s steps(4) infinite;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes vSnow{0%{transform:translate(0,0)}25%{transform:translate(-14px,9px)}50%{transform:translate(8px,-12px)}75%{transform:translate(-6px,-4px)}100%{transform:translate(11px,6px)}}
+@keyframes vRoll{from{background-position:0 0,0 -100%}to{background-position:0 0,0 160%}}
+@keyframes vFlick{50%{opacity:.86}}
+@keyframes vJit{50%{transform:translateX(1.5px)}}
+.s4-shade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(270deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.6) 42%,rgba(0,0,0,.35) 100%),linear-gradient(0deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 45%)}
+.s4-hud{position:absolute;top:96px;right:var(--gutter);display:flex;gap:16px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:#fff}
+.s4-hud .rec::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px;animation:blink 1.2s steps(1) infinite}
+/* mockup + copy sit together as one centred pair with a 48px gap */
+.s4{--dw:min(43vw,720px);--cw:min(40vw,600px);--pair-gap:48px;--pair-left:calc(50% - (var(--dw) + var(--pair-gap) + var(--cw)) / 2)}
+.s4-copy{position:absolute;left:calc(var(--pair-left) + var(--dw) + var(--pair-gap));top:50%;transform:translateY(-50%);width:var(--cw)}
+.s4-copy h2{font-weight:400;font-size:clamp(40px,5vw,84px);letter-spacing:-.04em;line-height:.96}
+
+/* computer mockup — Figma "Section 4 / Option E — Line-art monitor": outline only, screen at reduced opacity.
+   Swap the screen content by replacing assets/mockup-market-intelligence.jpg */
+.s4-device{position:absolute;left:var(--pair-left);top:50%;transform:translateY(-50%);width:var(--dw)}
+.mon{border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:10px 10px 25px;
+  background:rgba(0,0,0,.28);-webkit-backdrop-filter:blur(16px) saturate(.8);backdrop-filter:blur(16px) saturate(.8)}
+.mon-screen{position:relative;aspect-ratio:16/10;border-radius:4px;overflow:hidden}
+.mon-screen img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0;opacity:.82;animation:screenScroll 30s ease-in-out infinite}
+.mon-neck{width:12.9%;height:50px;margin:0 auto;border:1px solid rgba(255,255,255,.35);border-top:0;
+  background:rgba(0,0,0,.28);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.mon-base{width:32.3%;height:10px;margin:0 auto;border:1px solid rgba(255,255,255,.35);border-radius:3px}
+@keyframes screenScroll{0%,10%{object-position:50% 0}46%,58%{object-position:50% 100%}94%,100%{object-position:50% 0}}
+@media (prefers-reduced-motion: reduce){ .mon-screen img{animation:none} }
+.s4-copy .sub{margin-top:24px;font-size:clamp(18px,1.67vw,24px);line-height:1.35;letter-spacing:-.01em;color:#929292}
+.s4-copy .trio{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px 24px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#fff}
+.s4-copy .trio span+span::before{content:"/";color:var(--accent);margin-right:24px}
+.s4-copy .btn{margin-top:36px}
+@media (max-width: 900px){
+  .s4-copy{top:auto;bottom:72px;transform:none;left:var(--gutter);right:var(--gutter);width:auto}
+  .s4-copy h2{font-size:44px}
+  .s4-device{top:120px;left:var(--gutter);right:var(--gutter);width:auto;transform:none}
+  .mon{border-radius:10px;padding:8px 8px 18px}
+  .mon-neck{height:26px}
+  .s4-hud{top:84px}
+    .s4-copy .trio span+span::before{margin-right:12px}
+}
+
+/* TV power-on: the screen is off (black) while section 4 slides in, then a dot → line → full picture */
+.s4-stage,.s4-ui{clip-path:inset(50% 50% 50% 50% round 50%)}
+.s4-stage{position:absolute;inset:0}
+.s4.on .s4-stage,.s4.on .s4-ui{animation:tvOn 1.05s cubic-bezier(.3,.7,.2,1) forwards}
+.s4-power{position:absolute;left:50%;top:50%;width:6px;height:6px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);
+  box-shadow:0 0 18px 6px rgba(255,255,255,.85),0 0 60px 20px rgba(255,255,255,.35);opacity:0;pointer-events:none;z-index:3}
+.s4.on .s4-power{animation:tvGlow 1.05s cubic-bezier(.3,.7,.2,1) forwards}
+@keyframes tvOn{
+  0%{clip-path:inset(50% 50% 50% 50% round 50%);filter:brightness(4) contrast(1.4)}
+  16%{clip-path:inset(49.7% 49.6% 49.7% 49.6% round 50%);filter:brightness(4) contrast(1.4)}
+  40%{clip-path:inset(49.8% 0% 49.8% 0% round 0%);filter:brightness(3) contrast(1.3)}
+  72%{clip-path:inset(0% 0% 0% 0% round 0%);filter:brightness(1.7) contrast(1.15)}
+  100%{clip-path:inset(0% 0% 0% 0% round 0%);filter:none}}
+@keyframes tvGlow{
+  0%{opacity:0;width:2px;height:2px;border-radius:50%}
+  8%{opacity:1;width:6px;height:6px;border-radius:50%}
+  16%{opacity:1;width:14px;height:14px;border-radius:50%}
+  40%{opacity:1;width:100%;height:3px;border-radius:0}
+  62%{opacity:.5;width:100%;height:55%;border-radius:0}
+  80%{opacity:0;width:100%;height:100%;border-radius:0}
+  100%{opacity:0;width:100%;height:100%}}
+@media (prefers-reduced-motion: reduce){ .s4-stage,.s4-ui{clip-path:none} .s4.on .s4-stage,.s4.on .s4-ui,.s4.on .s4-power{animation:none} }
+
+/* Section 5 — zoom-out reveal: section 4 was playing on an old analog TV all along.
+   Everything in the TV is sized in em (1em = 1% of the screen width), so JS can lay the screen out at full-viewport
+   size (crisp film) and then just scale the whole set down. */
+/* Line-art receiver, same language as the section 4 monitor and the hero callouts: 1px hairlines, no shading.
+   Units: 1em = 1% of the screen width (the SVG viewBox is in the same units), so the live screen sits exactly in it. */
+.tv{position:absolute;left:0;top:0;width:164em;height:166em;transform-origin:0 0;will-change:transform;--s:1}
+.tv-art{position:absolute;inset:0;width:100%;height:100%;overflow:visible;opacity:var(--e);pointer-events:none}
+.tv-art *{vector-effect:non-scaling-stroke}
+.tv-art .c{fill:#000;stroke:rgba(255,255,255,.78);stroke-width:1.25}
+.tv-art .d{fill:none;stroke:rgba(255,255,255,.42);stroke-width:1}
+.tv-art .b{fill:none;stroke:rgba(255,255,255,.85);stroke-width:1.25}
+.tv-art .k{fill:#000;stroke:rgba(255,255,255,.78);stroke-width:1.25}
+.tv-art .a{fill:var(--accent);stroke:none}
+.tv-screen{position:absolute;left:23em;top:47em;width:100em;height:75em;overflow:hidden;background:#000;
+  border-radius:calc(var(--e) * 7em) / calc(var(--e) * 9em)}
+.tv-screen::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;opacity:calc(var(--e) * .9);
+  background:radial-gradient(110% 80% at 25% 14%,rgba(255,255,255,.1),rgba(255,255,255,0) 40%),radial-gradient(130% 120% at 50% 50%,rgba(0,0,0,0) 58%,rgba(0,0,0,.55) 100%)}
+.s4-shade{opacity:calc(1 - var(--e) * 2.2)}
+
+.s5-bg{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:var(--t5);pointer-events:none}
+/* Section 5 — Figma "Section 5 / Option D — Staircase": headline steps from top-left (grey, over the set) down to
+   bottom-right (white); body copy bottom-left, tagline top-right. Positions are % of the pinned viewport (Figma 1440×900). */
+.s5-el{position:absolute;z-index:3;margin:0;pointer-events:none;opacity:var(--o,var(--t5));transform:translateY(calc((1 - var(--o,var(--t5))) * 24px))}
+.s5-head{margin:0;font-weight:400}
+.s5-eyebrow{left:calc(var(--gutter) + 4px);top:12.45%;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#929292}
+.s5-h-a,.s5-h-b{font-size:clamp(44px,6.67vw,128px);line-height:.958;letter-spacing:-.04em}
+.s5-h-a{left:var(--gutter);top:15.55%;color:#929292}
+.s5-h-b{right:var(--gutter);top:75.1%;color:#fff;text-align:right;white-space:nowrap;--o:clamp(0, calc(var(--t5) * 1.7 - .7), 1)}
+.s5-h-b em{font-style:normal;color:var(--accent)}
+.s5-paras{left:var(--gutter);top:66%;width:300px;font-size:15px;line-height:22px;color:#929292;--o:clamp(0, calc(var(--t5) * 1.5 - .5), 1)}
+.s5-paras p+p{margin-top:22px}
+.s5-tag{right:var(--gutter);top:15.55%;text-align:right;font-family:var(--mono);font-size:12px;line-height:20px;letter-spacing:.08em;text-transform:uppercase;color:#fff}
+@media (max-width: 900px){
+  .s5-eyebrow{top:88px;left:var(--gutter)}
+  .s5-h-a{top:112px;font-size:40px}
+  .s5-h-b{top:68%;font-size:40px}
+  .s5-paras{top:76%;right:var(--gutter);width:auto;font-size:14px;line-height:20px}
+  .s5-paras p+p{margin-top:12px}
+  .s5-tag{display:none}
+}
+
+/* Footer — Figma "Footer / Option D — Line-art wordmark" (+ logo mark): link columns, brand top-right,
+   a full-width outline wordmark lit by the cursor, legal row */
+.ft{position:relative;z-index:2;background:#000;padding:0 var(--gutter)}
+.ft-top{display:flex;justify-content:space-between;gap:40px;padding-top:72px;border-top:1px solid #313131}
+.ft-cols{display:flex}
+.ft-col{width:260px}
+.ft-h{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#929292;margin-bottom:18px}
+.ft-col a{display:table;font-size:18px;line-height:20px;margin-bottom:10px;color:#fff;transition:color .2s}
+.ft-col a:hover{color:var(--accent)}
+.ft-col a .ext{font-size:.8em;margin-left:4px}
+.ft-brand{text-align:right}
+.ft-brand .logo{justify-content:flex-end}
+.ft-brand p{margin-top:20px;font-size:15px;line-height:22px;color:#929292}
+.ft-mark{margin-top:clamp(72px,13vw,200px);white-space:nowrap;text-align:center;line-height:.78;
+  font-size:calc((100vw - 2 * var(--gutter)) / 5.86);font-weight:500;letter-spacing:.01em}
+.ft-icon{display:inline-block;height:.71em;width:auto;vertical-align:baseline;margin-right:.1em;overflow:visible}
+.ft-icon{fill:none;stroke:rgba(255,255,255,.55);stroke-width:1}
+/* outline = SVG filter (dilate 1px, minus the glyph) so only the outer edge is drawn — text-stroke would also trace
+   Geist's overlapping contours. The cursor light is a second copy on top, filled through a moving radial gradient. */
+.ft-wrap{position:relative;display:inline-block}
+.ft-word{color:#fff;filter:url(#ft-outline)}
+.ft-light{position:absolute;left:0;top:0;color:transparent;pointer-events:none;
+  background:radial-gradient(circle calc(var(--lr,0) * 1px) at var(--mx,-999px) var(--my,-999px),rgba(255,255,255,.92),rgba(160,145,245,.5) 45%,rgba(160,145,245,0) 74%);
+  -webkit-background-clip:text;background-clip:text}
+.ft-dot{display:inline-block;width:.11em;height:.11em;margin-left:8px;border-radius:50%;background:var(--accent);vertical-align:baseline}
+.ft-legal{display:flex;justify-content:space-between;gap:16px;margin-top:40px;padding:20px 0 28px;border-top:1px solid #313131;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#929292}
+.ft-legal span+span{color:#fff}
+@media (max-width: 900px){
+  .ft-top{flex-direction:column-reverse;padding-top:48px}
+  .ft-cols{display:grid;grid-template-columns:1fr 1fr;row-gap:32px}
+  .ft-col{width:auto}
+  .ft-col a{font-size:16px}
+  .ft-brand{text-align:left}
+  .ft-brand .logo{display:none}            /* the fixed nav logo is right above it on stacked layouts */
+  .ft-brand p{margin-top:0}
+  .ft-legal{flex-direction:column}
+}
+
+/* ambient sound toggle (sections 4–5) */
+.snd{position:fixed;right:var(--gutter);bottom:24px;z-index:60;display:flex;align-items:center;gap:10px;padding:10px 14px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff;cursor:pointer;
+  background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.28);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .4s,transform .4s,visibility .4s,border-color .25s}
+.snd:hover{border-color:rgba(255,255,255,.7)}
+.snd.show{opacity:1;visibility:visible;transform:none}
+.snd .eq{display:flex;align-items:flex-end;gap:2px;height:12px}
+.snd .eq i{width:2px;height:3px;background:var(--accent);transition:height .3s}
+.snd.on .eq i{animation:eq 1s ease-in-out infinite}
+.snd.on .eq i:nth-child(2){animation-delay:-.35s} .snd.on .eq i:nth-child(3){animation-delay:-.7s} .snd.on .eq i:nth-child(4){animation-delay:-.15s}
+@keyframes eq{0%,100%{height:3px}50%{height:12px}}
+@media (prefers-reduced-motion: reduce){ .snd.on .eq i{animation:none;height:8px} }
+@media (max-width: 900px){ .snd{bottom:16px;padding:9px 12px} }
+
+
+@media (max-width: 900px){
+  .nav ul{display:none}
+  .nav .btn{padding:12px 14px;gap:10px;font-size:11px}
+  .shade{background:linear-gradient(0deg, rgba(0,0,0,.96) 0%, rgba(0,0,0,.75) 42%, rgba(0,0,0,0) 66%)}
+  .copy{max-width:none;right:var(--gutter);bottom:88px}
+  h1{font-size:clamp(34px,9.4vw,60px)}
+  .hud-r{display:none}
+  .strip .tags{display:none}
+  .strip{justify-content:center}
+  .backed{gap:18px} .backed .logo-nv{height:24px} .backed .logo-mantle{height:16px}
+  .lbl .tag{display:none}
+  .ctas{margin-top:28px}
+}
+@media (prefers-reduced-motion: reduce){ .caret{animation:none} }
+
+/* ---------- responsive polish: tablet (601–900) and phone (≤600) ---------- */
+@media (max-width: 900px){
+  .s2 h2{font-size:clamp(48px,11.5vw,100px)}
+  .cap-card{height:clamp(260px,56vw,44vh);height:clamp(260px,56vw,44svh)}
+  .s4-copy h2{font-size:clamp(44px,8vw,68px)}
+}
+@media (min-width: 601px) and (max-width: 900px){
+  .s2-head{top:14%}
+  .s2 .lead{font-size:22px}
+  .s4-copy .sub{font-size:22px}
+  .s5-h-a,.s5-h-b{font-size:9.4vw}
+  .s5-h-a{top:120px}
+  .s5-h-b{top:71%}
+  .s5-paras{top:82%;right:auto;width:62%;font-size:16px;line-height:24px}
+  .s5-paras p+p{margin-top:16px}
+  .s5-tag{display:block;top:122px}
+  .ft-cols{grid-template-columns:repeat(3,1fr)}
+  .ft-legal{flex-direction:row}
+}
+@media (max-width: 600px){
+  #labels{display:none}
+  .cap-card{height:44%;bottom:5%}        /* % of the pinned screen, so it follows the visible height */
+  .s4-copy .trio{flex-direction:column;gap:8px}
+  .s4-copy .trio span::before,.s4-copy .trio span+span::before{content:"";display:inline-block;width:6px;height:6px;background:var(--accent);margin-right:12px;vertical-align:2px}
+}
