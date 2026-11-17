@@ -1,25 +1,35 @@
 /* InsightX AI — About page (page 03). Loads after main.css + products.css and reuses their tokens, nav, eyebrow,
    reveal, hero copy, HUD, buttons and footer.
-   Sections: hero (fragments → insight field) · mission (scroll-lit statement) · technology (pinned layer stack) ·
+   Sections: hero (information landscape) · mission (scroll-lit statement) · technology (pinned layer stack) ·
    journey (pinned horizontal roadmap) · vision (fragments resolve into the InsightX mark) · footer */
 
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* ---------------- 1 · Hero ---------------- */
-.ab-field{position:absolute;inset:0;width:100%;height:100%;display:block}
-.ab-hero .pp-copy{max-width:min(66vw,1160px);bottom:clamp(72px,11vh,124px)}
-.ab-hero h1{font-size:clamp(38px,4.7vw,86px)}
-.ab-hero .pp-intro .lead{max-width:24em}
-.ab-hud{bottom:clamp(72px,11vh,124px)}
-.ab-hud b.acc{color:var(--accent)}
+/* ---------------- 1 · Hero — information landscape (terrain) ---------------- */
+.ab-terrain{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.ab-shade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(0deg,rgba(0,0,0,.96) 0%,rgba(0,0,0,.78) 26%,rgba(0,0,0,0) 62%),linear-gradient(180deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 16%)}
+.ab-copy{position:absolute;left:var(--gutter);right:var(--gutter);bottom:calc(clamp(36px,6vh,64px) + 150px);pointer-events:none}
+.ab-copy h1{font-weight:400;font-size:clamp(44px,6.3vw,120px);letter-spacing:-.04em;line-height:.98}
+.ab-copy h1 > span{display:block}
+.ab-copy h1 .l1{color:#929292}
+.ab-copy h1 .l2{color:#fff;margin-top:.06em}
+.ab-foot{position:absolute;left:var(--gutter);right:var(--gutter);bottom:clamp(36px,6vh,64px);padding-top:26px;border-top:1px solid #313131;
+  display:flex;gap:80px;align-items:flex-start;pointer-events:none}
+.ab-foot .lead{font-size:20px;line-height:1.4;letter-spacing:-.01em;color:#929292;max-width:31em}
+.ab-foot .lead b{font-weight:400;color:#fff}
+.ab-foot .body{margin-left:auto;font-family:var(--mono);font-size:12px;line-height:1.8;letter-spacing:.06em;text-transform:uppercase;color:#c3c7cd;width:400px;max-width:100%}
 
 /* ---------------- 2 · Mission ---------------- */
 .am{position:relative;z-index:2;height:240vh;background:#000;border-top:1px solid #1a1a1a}
 .am-sticky{position:sticky;top:0;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden;
   display:flex;flex-direction:column;justify-content:center;padding:96px var(--gutter) 64px}
-.am-sticky::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
-  background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1.2px);background-size:28px 28px;
-  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 0%,transparent 75%)}
+.am-field{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.am-sticky > *:not(.am-field){position:relative}
+.am-reach{position:absolute!important;right:var(--gutter);bottom:clamp(40px,7vh,72px);display:flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#5f5f5f}
+.am-reach .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.am-reach b{font-weight:400;color:#fff;font-variant-numeric:tabular-nums;min-width:4ch;text-align:right}
 .am-pre{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#929292}
 .am-statement{position:relative;margin-top:20px;max-width:15.5em;font-weight:400;font-size:clamp(40px,6.2vw,112px);letter-spacing:-.04em;line-height:1}
 .am-statement em{font-style:normal}
@@ -143,8 +153,12 @@
   .at-stack{width:52vw}
 }
 @media (max-width: 900px){
-  .ab-hero .pp-copy{max-width:none}
-  .ab-hero h1{font-size:clamp(34px,9vw,60px)}
+  .ab-foot{flex-direction:column;gap:12px;padding-top:18px;bottom:28px}
+  .ab-copy{bottom:150px}
+  .ab-copy h1{font-size:clamp(34px,9.4vw,60px)}
+  .am-reach{bottom:24px}
+  .ab-foot .lead{font-size:16px}
+  .ab-foot .body{display:none}
 
   .am{height:200vh}
   .am-sticky{padding:84px var(--gutter) 48px}

@@ -1,0 +1,41 @@
+<!-- Archived 17 Nov 2026 — the About hero markup while three options were under review (?hero=board|terrain|radar),
+     plus the temporary switcher. Terrain was chosen; board + radar scripts are in this folder. -->
+<!-- ============ 1 · Hero — three options under review, picked with ?hero=board|terrain|radar (default: board) ============
+     board   = split-flap board that resolves into the headline (about-board.js)
+     terrain = information landscape: animated contour map, the pointer raises a peak (about-terrain.js)
+     radar   = a sweep finds signals; insights stay lit (about-radar.js)
+     Once one is chosen, the other two scripts, their canvases and the switcher can be removed. -->
+<section class="pp-hero ab-hero" id="top" aria-labelledby="ab-title" data-hero="board">
+  <script>(function(){var h=(location.search.match(/[?&]hero=(\w+)/)||[])[1],s=document.currentScript.parentNode;
+    if(['board','terrain','radar'].indexOf(h)>-1){s.dataset.hero=h;s.dataset.review='1';}})();</script>
+  <canvas class="ab-board" aria-hidden="true"></canvas>
+  <canvas class="ab-viz" aria-hidden="true"></canvas>
+  <div class="ab-shade" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <a href="index.html" class="logo" aria-label="InsightX home"><svg class="logo-mark" width="33" height="26" viewBox="0 0 33 26" aria-hidden="true"><use href="#ix-mark"/></svg><span>INSIGHT<b>X</b></span></a>
+    <ul>
+      <li><a href="about.html" class="cur" aria-current="page">About</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Community</a></li>
+    </ul>
+    <a href="products.html" class="btn btn-primary">Discover InsightX <span class="arr">→</span></a>
+  </nav>
+
+  <div class="ab-copy">
+    <h1 id="ab-title"><span class="l1" data-pscramble data-set="01">Building a More Intelligent</span> <span class="l2" data-pscramble data-caret>Way to Understand the World.</span></h1>
+  </div>
+  <div class="ab-radar-hud hud" aria-hidden="true"><div class="row">Signals found <b class="ab-sig">0</b></div><div class="row">Insights kept <b class="ab-ins">0</b></div></div>
+
+  <div class="ab-foot reveal">
+    <p class="lead">InsightX AI is an AI-powered intelligence platform focused on transforming <b>fragmented information into actionable insights.</b></p>
+    <p class="body">We combine AI research, intelligent agents, and multi-source data processing to make complex information easier to explore, understand, and use.</p>
+  </div>
+</section>
+
+
+<!-- temporary: hero option switcher, only shown when the page is opened with ?hero=… -->
+<nav class="ab-switch" aria-label="Hero options"><span>Hero</span><a href="?hero=board">Board</a><a href="?hero=terrain">Terrain</a><a href="?hero=radar">Radar</a></nav>
+<script>(function(){var h=document.querySelector('.ab-hero').dataset.hero;document.querySelectorAll('.ab-switch a').forEach(function(a){if(a.getAttribute('href')==='?hero='+h)a.classList.add('on');});})();</script>
+
