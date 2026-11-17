@@ -1,0 +1,19 @@
+/* Hides the badge Netlify injects on the live site ("Powered by Netlify" badge / pre-launch toolbar / review drawer).
+   Netlify adds it at the edge, inside its own iframe, so nothing inside it can be styled — but the frame element
+   itself sits in our page and can be hidden. Netlify doesn't document a class or id for it, so these rules cover the
+   likely hooks. This site uses no iframes of its own, so the last rule is a safe catch-all.
+   Each selector is its own rule on purpose: one unsupported selector would otherwise drop the whole list.
+   The clean way to switch it off for everyone: Netlify → Project configuration → General → Powered by Netlify badge → Off. */
+
+iframe[src*="netlify" i]{display:none!important;visibility:hidden!important;pointer-events:none!important}
+iframe[title*="netlify" i]{display:none!important;visibility:hidden!important;pointer-events:none!important}
+iframe[id*="netlify" i]{display:none!important;visibility:hidden!important;pointer-events:none!important}
+iframe[name*="netlify" i]{display:none!important;visibility:hidden!important;pointer-events:none!important}
+iframe[class*="netlify" i]{display:none!important;visibility:hidden!important;pointer-events:none!important}
+[id*="netlify-badge" i],[class*="netlify-badge" i]{display:none!important}
+[id*="netlify-toolbar" i],[class*="netlify-toolbar" i]{display:none!important}
+[id*="netlify-drawer" i],[class*="netlify-drawer" i]{display:none!important}
+netlify-badge,netlify-toolbar,netlify-drawer{display:none!important}
+
+/* catch-all: any iframe added straight to <body>/<html> (the site itself has none) */
+body > iframe,html > iframe{display:none!important;visibility:hidden!important;pointer-events:none!important}
