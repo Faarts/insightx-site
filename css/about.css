@@ -5,10 +5,18 @@
 
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
+/* ---------------- section transitions (about-transitions.js) ----------------
+   Each hand-over happens in place: both sections are held still while the incoming one is revealed through a
+   shape (clip-path) that follows the pointer. So section panels carry their black on the sticky layer, not the
+   section box, and the hero lets its layers overflow while it's being covered. */
+.ab-hero{overflow:visible}
+.ab-fx{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;display:block}
+
 /* ---------------- 1 · Hero — information landscape (terrain) ---------------- */
 .ab-terrain{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
 .ab-shade{position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(0deg,rgba(0,0,0,.96) 0%,rgba(0,0,0,.78) 26%,rgba(0,0,0,0) 62%),linear-gradient(180deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 16%)}
+.ab-par{position:absolute;inset:0;pointer-events:none;will-change:transform,opacity}
 .ab-copy{position:absolute;left:var(--gutter);right:var(--gutter);bottom:calc(clamp(36px,6vh,64px) + 150px);pointer-events:none}
 .ab-copy h1{font-weight:400;font-size:clamp(44px,6.3vw,120px);letter-spacing:-.04em;line-height:.98}
 .ab-copy h1 > span{display:block}
@@ -21,8 +29,8 @@
 .ab-foot .body{margin-left:auto;font-family:var(--mono);font-size:12px;line-height:1.8;letter-spacing:.06em;text-transform:uppercase;color:#c3c7cd;width:400px;max-width:100%}
 
 /* ---------------- 2 · Mission ---------------- */
-.am{position:relative;z-index:2;height:240vh;background:#000;border-top:1px solid #1a1a1a}
-.am-sticky{position:sticky;top:0;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden;
+.am{position:relative;z-index:2;height:300vh;background:transparent}
+.am-sticky{position:sticky;top:0;background:#000;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden;
   display:flex;flex-direction:column;justify-content:center;padding:96px var(--gutter) 64px}
 .am-field{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .am-sticky > *:not(.am-field){position:relative}
@@ -46,8 +54,8 @@
 .am-keys li.on i{transform:none}
 
 /* ---------------- 3 · Technology (pinned) ---------------- */
-.at{position:relative;z-index:2;height:440vh;background:#000;border-top:1px solid #1a1a1a}
-.at-sticky{position:sticky;top:0;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden}
+.at{position:relative;z-index:2;height:440vh;background:transparent}
+.at-sticky{position:sticky;top:0;background:#000;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden}
 .at-left{position:absolute;left:var(--gutter);top:96px;bottom:48px;width:min(38vw,560px);display:flex;flex-direction:column;justify-content:center}
 .at-title{font-weight:400;font-size:clamp(36px,3.9vw,68px);letter-spacing:-.04em;line-height:1}
 .at-title > span{display:block}
@@ -79,8 +87,8 @@
 
 /* ---------------- 4 · Journey (pinned) ----------------
    Three phase panels side by side; scrolling (or clicking a panel) opens one at a time. */
-.aj{position:relative;z-index:2;height:300vh;background:#000;border-top:1px solid #1a1a1a}
-.aj-sticky{position:sticky;top:0;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden;
+.aj{position:relative;z-index:2;height:300vh;background:transparent}
+.aj-sticky{position:sticky;top:0;background:#000;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden;
   display:flex;flex-direction:column;padding:max(96px,12vh) var(--gutter) clamp(36px,6vh,64px)}
 .aj-head h2{font-weight:400;font-size:clamp(36px,4.4vw,80px);letter-spacing:-.04em;line-height:1}
 .aj-head h2 .g{color:#929292}
@@ -128,22 +136,26 @@
 .aj-phase.on li:nth-child(2){transition-delay:.41s} .aj-phase.on li:nth-child(3){transition-delay:.47s}
 .aj-phase.on li:nth-child(4){transition-delay:.53s} .aj-phase.on li:nth-child(5){transition-delay:.59s}
 
-/* ---------------- 5 · Vision ---------------- */
-.av{position:relative;z-index:2;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:640px;overflow:hidden;background:#000;border-top:1px solid #1a1a1a}
+/* ---------------- 5 · Vision (pinned, centred) ---------------- */
+.av{position:relative;z-index:2;height:240vh;background:transparent}
+.av-sticky{position:sticky;top:0;background:#000;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden}
 .av-mark{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
-.av-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.4) 34%,rgba(0,0,0,0) 52%)}
-.av-copy{position:absolute;left:var(--gutter);bottom:clamp(72px,12vh,140px);width:min(50vw,820px);pointer-events:none}
-.av-copy a{pointer-events:auto}
-.av h2{font-weight:400;font-size:clamp(36px,4.2vw,76px);letter-spacing:-.04em;line-height:1}
+.av-stage{position:absolute;left:var(--gutter);right:var(--gutter);bottom:clamp(44px,8vh,96px);display:flex;flex-direction:column;align-items:center;text-align:center;pointer-events:none}
+.av-stage a{pointer-events:auto}
+.av h2{font-weight:400;letter-spacing:-.04em;line-height:1}
 .av h2 > span{display:block}
-.av h2 .l1{color:#929292}
-.av h2 .l2{color:#fff;margin-top:.12em}
+.av h2 .l1{font-size:clamp(26px,3.3vw,60px);color:#fff;transition:color .9s}
+.av.b2 h2 .l1{color:#929292}
+.av h2 .l2{font-size:clamp(44px,6.4vw,120px);margin-top:.14em;opacity:0;transition:opacity .5s}
+.av.b2 h2 .l2{opacity:1}
 .av h2 .ch.scr::after{color:#fff}
-.av-body{margin-top:32px;padding-top:24px;border-top:1px solid #313131;max-width:36em}
-.av-body p{font-size:17px;line-height:1.5;color:#929292}
-.av-body p.w{margin-top:6px;color:#fff}
-.av .ctas{margin-top:32px}
-.av-cap{position:absolute;right:var(--gutter);bottom:clamp(72px,12vh,140px);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#5f5f5f}
+.av-end{margin-top:30px;display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateY(16px);
+  transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.av.end .av-end{opacity:1;transform:none}
+.av-body{max-width:36em;font-size:17px;line-height:1.5;color:#929292}
+.av-body b{display:block;margin-top:4px;font-weight:400;color:#fff}
+.av .ctas{margin-top:28px;justify-content:center}
+.av-cap{position:absolute;right:var(--gutter);top:96px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#5f5f5f}
 .av-cap b{font-weight:400;color:#fff;font-variant-numeric:tabular-nums}
 
 /* ---------------- responsive ---------------- */
@@ -160,7 +172,7 @@
   .ab-foot .lead{font-size:16px}
   .ab-foot .body{display:none}
 
-  .am{height:200vh}
+  .am{height:250vh}
   .am-sticky{padding:84px var(--gutter) 48px}
   .am-statement{font-size:clamp(36px,10.4vw,72px)}
   .am-keys{margin-top:36px}
@@ -194,18 +206,20 @@
   .aj-phase ul,.aj-phase.on ul{width:auto;columns:1;max-height:none;margin-top:16px}
   .aj-phase li{font-size:14px}
 
-  .av-shade{background:linear-gradient(0deg,rgba(0,0,0,.95) 0%,rgba(0,0,0,.7) 42%,rgba(0,0,0,0) 62%)}
-  .av-copy{right:var(--gutter);width:auto;bottom:40px}
-  .av h2{font-size:clamp(30px,8.4vw,56px)}
-  .av-body{margin-top:20px;padding-top:16px}
-  .av-body p{font-size:15px}
-  .av .ctas{margin-top:22px}
+  .av{height:220vh}
+  .av-stage{bottom:32px}
+  .av h2 .l1{font-size:clamp(20px,5.4vw,34px)}
+  .av h2 .l2{font-size:clamp(34px,10vw,60px)}
+  .av-end{margin-top:20px}
+  .av-body{font-size:15px}
+  .av .ctas{margin-top:20px}
   .av .btn{padding:13px 16px;font-size:11px}
-  .av-cap{top:84px;bottom:auto}
+  .av-cap{top:84px}
 }
 @media (max-width: 900px) and (max-height: 760px){
   .at-list .d p{display:none}
-  .av-body p:first-child{display:none}
+  .av-body{font-size:0}
+  .av-body b{font-size:15px;margin-top:0}
 }
 @media (prefers-reduced-motion: reduce){
   .aj-phase.now .aj-node::after{animation:none}

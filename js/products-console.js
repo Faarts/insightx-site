@@ -2,11 +2,11 @@
    The section pins while the visitor scrolls through four features. The left column types the active feature
    (same typing as the home capabilities) and fills its progress bar; the console on the right switches to a
    live, illustrative screen for that feature, with a glyph wipe between screens.
-   Also drives the hand-over from the intro: the black panel rises, the intro copy recedes. */
+   (The hand-over from the intro — the intro shrinking into this console's screen — lives in products-transitions.js.) */
 (() => {
   const sec = document.getElementById('features'); if (!sec) return;
   const { reduce, MONO, SANS, clamp } = window.IXP;
-  const intro = document.querySelector('.pf-par'), sticky = sec.querySelector('.pf-sticky');
+  const sticky = sec.querySelector('.pf-sticky');
   const left = sec.querySelector('.pf-left'), con = sec.querySelector('.pf-console');
   const items = [...sec.querySelectorAll('.pf-list li')], N = items.length;
   const wordEl = sec.querySelector('.pf-word'), numEl = sec.querySelector('.pf-num'), descEl = sec.querySelector('.pf-desc');
@@ -51,18 +51,13 @@
     if (typed === target) typeT = 0;
     if (wordEl.textContent !== typed) wordEl.textContent = typed;
 
-    // hand-over from the intro: panel rises, intro recedes, this section's content trails the panel edge
-    const sh = sticky.clientHeight || vh, over = clamp((scrollY + sh - top) / sh), eo = 1 - Math.pow(1 - over, 3);
-    if (intro){ intro.style.transform = `translate3d(0,${(over * sh * .6).toFixed(1)}px,0) scale(${(1 - over * .08).toFixed(4)})`; intro.style.opacity = Math.max(0, 1 - over * 1.3).toFixed(3); }
-    const mob = innerWidth <= 900;
+    const sh = sticky.clientHeight || vh, mob = innerWidth <= 900;
     // stacked layout: the console fills whatever height is left under the copy
     if (mob){
       const bar = con.querySelector('.pf-bar').offsetHeight + 16, free = sh - (left.offsetTop + left.offsetHeight + 24) - sh * .04 - bar;
       const hpx = Math.round(Math.max(200, Math.min(free, (sh - 84) * .62)));
       if (con._h !== hpx){ con._h = hpx; screenEl.style.height = hpx + 'px'; }
     } else if (con._h){ con._h = 0; screenEl.style.height = ''; }
-    left.style.transform = `translate3d(0,${((1 - eo) * sh * .42).toFixed(1)}px,0)`;
-    con.style.transform = `${mob ? '' : 'translateY(-50%) '}translate3d(0,${((1 - eo) * sh * .62).toFixed(1)}px,0)`;
 
     if (scrollY + vh > top && scrollY < top + sec.offsetHeight) draw(now / 1000, dt);
   }

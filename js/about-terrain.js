@@ -108,7 +108,7 @@
   function frame(now){
     requestAnimationFrame(frame);
     const dt = Math.min(.05, (now - last) / 1000); last = now;
-    if (!window.IXP.visible(sec)) return;
+    if (!window.IXP.visible(sec) && !cv.dataset.live) return;     // .dataset.live: held on screen by the pull-back into the mission
     const [w, h, ch] = window.IXP.fit(cv, ctx);
     if (ch || w !== W || h !== H){ W = w; H = h; S = Math.max(12, Math.round(W / 115)); nx = Math.ceil(W / S); ny = Math.ceil(H / S); F = new Float32Array((nx + 1) * (ny + 1)); marks = []; frameN = 0; }
     const t = now / 1000;

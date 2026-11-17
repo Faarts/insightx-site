@@ -29,9 +29,9 @@
   (vv || window).addEventListener('resize', set); addEventListener('orientationchange', function(){ setTimeout(set, 300); });
 })();
 </script>
-<link rel="stylesheet" href="css/main.css?v=6" />
-<link rel="stylesheet" href="css/products.css?v=2" />
-<link rel="stylesheet" href="css/about.css?v=8" />
+<link rel="stylesheet" href="css/main.css?v=8" />
+<link rel="stylesheet" href="css/products.css?v=3" />
+<link rel="stylesheet" href="css/about.css?v=11" />
 <link rel="stylesheet" href="css/netlify-badge.css?v=1" />
 </head>
 <body class="pp ab">
@@ -53,6 +53,7 @@
     <a href="products.html" class="btn btn-primary">Discover InsightX <span class="arr">→</span></a>
   </nav>
 
+  <div class="ab-par">
   <div class="ab-copy">
     <h1 id="ab-title"><span class="l1" data-pscramble data-set="01">Building a More Intelligent</span> <span class="l2" data-pscramble data-caret>Way to Understand the World.</span></h1>
   </div>
@@ -60,6 +61,7 @@
   <div class="ab-foot reveal">
     <p class="lead">InsightX AI is an AI-powered intelligence platform focused on transforming <b>fragmented information into actionable insights.</b></p>
     <p class="body">We combine AI research, intelligent agents, and multi-source data processing to make complex information easier to explore, understand, and use.</p>
+  </div>
   </div>
 </section>
 
@@ -157,26 +159,28 @@
   </div>
 </section>
 
-<!-- ============ 5 · Vision — scattered fragments resolve into the InsightX mark ============ -->
+<!-- ============ 5 · Vision (pinned) — a two-beat close, centred: "not more information" while the fragments are
+     scattered; scrolling pulls them into the InsightX mark and "better intelligence" resolves under it ============ -->
 <section class="av" id="vision" aria-labelledby="av-title">
-  <canvas class="av-mark" aria-hidden="true"></canvas>
-  <div class="av-shade" aria-hidden="true"></div>
-  <div class="av-copy">
-    <h2 id="av-title">
-      <span class="l1" data-pscramble data-set="01">The Future Is Not More Information.</span>
-      <span class="l2" data-pscramble data-caret>It's Better Intelligence.</span>
-    </h2>
-    <div class="av-body reveal">
-      <p>As information continues to grow, the ability to understand it becomes increasingly valuable.</p>
-      <p class="w">We are building the tools to make that possible.</p>
-    </div>
-    <div class="ctas reveal d2">
-      <a href="products.html" class="btn btn-primary">Explore Our Products <span class="arr">→</span></a>
-      <a href="index.html" class="btn btn-ghost">Discover InsightX</a>
+  <div class="av-sticky">
+    <canvas class="av-mark" aria-hidden="true"></canvas>
+    <p class="av-cap" aria-hidden="true">Fragments aligned <b class="av-n">0</b></p>
+    <div class="av-stage">
+      <h2 id="av-title" data-manual>
+        <span class="l1" data-pscramble data-set="01">The Future Is Not More Information.</span>
+        <span class="l2" data-pscramble data-caret>It's Better Intelligence.</span>
+      </h2>
+      <div class="av-end">
+        <p class="av-body">As information continues to grow, the ability to understand it becomes increasingly valuable. <b>We are building the tools to make that possible.</b></p>
+        <div class="ctas">
+          <a href="products.html" class="btn btn-primary">Explore Our Products <span class="arr">→</span></a>
+        </div>
+      </div>
     </div>
   </div>
-  <p class="av-cap" aria-hidden="true">Fragments aligned <b class="av-n">0</b></p>
 </section>
+
+<canvas class="ab-fx" aria-hidden="true"></canvas>
 
 <footer class="ft">
   <div class="ft-top">
@@ -192,11 +196,12 @@
 </footer>
 
 <script src="js/products-common.js?v=1"></script>
-<script src="js/about-terrain.js?v=5"></script>
-<script src="js/about-mission.js?v=3"></script>
+<script src="js/about-terrain.js?v=6"></script>
+<script src="js/about-mission.js?v=4"></script>
 <script src="js/about-stack.js?v=3"></script>
 <script src="js/about-journey.js?v=2"></script>
-<script src="js/about-vision.js?v=1"></script>
+<script src="js/about-vision.js?v=2"></script>
+<script src="js/about-transitions.js?v=6"></script>
 <script src="js/about-scroll.js?v=1"></script>
 <script src="js/footer-light.js?v=5"></script>
 <script src="js/nav-menu.js?v=1"></script>

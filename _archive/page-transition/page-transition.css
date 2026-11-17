@@ -1,0 +1,11 @@
+/* ---------- Page transitions (js/page-transition.js) ----------
+   html.pt-in is set by an inline script in <head> when arriving from another page, so the page starts covered. */
+html.pt-in body::after{content:"";position:fixed;inset:0;z-index:300;background:#000}
+.pt{position:fixed;inset:0;z-index:300;pointer-events:all}
+.pt-v,.pt-k{position:absolute;inset:0}
+.pt-v{background:var(--accent)}
+.pt-k{background:#000;display:flex;align-items:center;justify-content:center}
+.pt-c{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
+.pt-mark{width:56px;height:auto;fill:#F8F1E7}
+.pt-name{font-weight:400;font-size:clamp(44px,6vw,104px);letter-spacing:-.04em;line-height:1;color:#fff;min-height:1em}
+.pt-sub{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}

@@ -21,6 +21,10 @@
 .pp .in .reveal,.pp .reveal.in{opacity:1;transform:none}
 .pp .in .reveal.d2{transition-delay:.35s}
 
+/* ---------------- section transitions (products-transitions.js) ----------------
+   Hand-overs happen in place, so the black of each pinned section sits on its sticky layer, not the section box. */
+.pp-fx{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;display:block}
+
 /* ---------------- 1 · Hero ---------------- */
 .pp-hero{position:relative;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:640px;overflow:hidden}
 .pp-orbit{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
@@ -69,8 +73,8 @@
 .pf-foot .body{font-family:var(--mono);font-size:12px;line-height:1.8;letter-spacing:.06em;text-transform:uppercase;color:#c3c7cd;width:380px;max-width:100%}
 
 /* ---------------- 3 · Key features (pinned) ---------------- */
-.pf-feat{position:relative;z-index:2;height:480vh;background:#000}
-.pf-sticky{position:sticky;top:0;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden}
+.pf-feat{position:relative;z-index:2;height:480vh;background:transparent}
+.pf-sticky{position:sticky;top:0;background:#000;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden}
 .pf-left{position:absolute;left:var(--gutter);top:96px;bottom:48px;width:min(38vw,580px);display:flex;flex-direction:column;justify-content:center;will-change:transform}
 .pf-line{display:flex;align-items:center;gap:20px;margin-top:22px;font-family:var(--mono);font-size:clamp(30px,3.3vw,60px);letter-spacing:-.03em;line-height:1;white-space:nowrap}
 .pf-num{font-weight:500;color:var(--accent)}
@@ -105,8 +109,8 @@
 .pf-cap .pf-count{color:#929292}
 
 /* ---------------- 4 · Prediction Market (pinned) ---------------- */
-.pm{position:relative;z-index:2;height:340vh;background:#000;border-top:1px solid #1a1a1a}
-.pm-sticky{position:sticky;top:0;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden}
+.pm{position:relative;z-index:2;height:340vh;background:transparent}
+.pm-sticky{position:sticky;top:0;background:#000;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden}
 .pm-copy{position:absolute;left:var(--gutter);top:calc(50% - 23px);transform:translateY(-50%);width:min(36vw,540px)}
 .pm-copy h2{margin-top:24px;font-weight:400;font-size:clamp(40px,4.6vw,80px);letter-spacing:-.04em;line-height:.96}
 .pm-copy h2 .g{color:#929292}
@@ -141,8 +145,8 @@
 @media (prefers-reduced-motion: reduce){ .pm-track{animation:none} }
 
 /* ---------------- 5 · Agent Scene (pinned) ---------------- */
-.pa{position:relative;z-index:2;height:300vh;background:#000}
-.pa-sticky{position:sticky;top:0;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden;--pa:0}
+.pa{position:relative;z-index:2;height:300vh;background:transparent}
+.pa-sticky{position:sticky;top:0;background:#000;height:100vh;height:100svh;height:var(--app-h,100svh);min-height:600px;overflow:hidden;--pa:0}
 .pa-net{position:absolute;inset:0;width:100%;height:100%;display:block}
 .pa-eyebrow{position:absolute;left:var(--gutter);top:13%}
 .pa-head{position:absolute;left:var(--gutter);right:var(--gutter);top:calc(13% + 44px);font-weight:400;font-size:clamp(40px,5.56vw,104px);letter-spacing:-.04em;line-height:.98;pointer-events:none}

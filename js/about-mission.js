@@ -33,7 +33,8 @@
   let raf = 0, lastF = -1;
   function update(){
     raf = 0;
-    const f = reduce ? 1 : clamp((window.IXP.progress(sec) - .04) / .7);
+    // the first ~30% of the pin belongs to the pull-back from the hero (about-transitions.js); the statement lights after it
+    const f = reduce ? 1 : clamp((window.IXP.progress(sec) - .3) / .55);
     if (Math.abs(f - lastF) < .001) return; lastF = f;
     const n = words.length;
     words.forEach((w, i) => {
@@ -66,6 +67,8 @@
     const mob = W <= 900;
     ox = mob ? W * .82 : W * .84; oy = mob ? H * .78 : H * .7;
     maxR = Math.hypot(Math.max(ox, W - ox), Math.max(oy, H - oy));
+    const mw = mob ? 44 : 64;
+    window.abReach = { x: ox, y: oy, w: mw };              // the hero's pull-back lands exactly on this mark
     shown += (reach - shown) * (reduce ? 1 : Math.min(1, dt * 6));
     const R = shown * maxR * 1.02, t = now / 1000, gs = mob ? 22 : 28;
     pulses.forEach(p => p.r += dt * maxR * .55); pulses = pulses.filter(p => p.r < maxR * 1.05);
@@ -102,7 +105,7 @@
     }
     // the origin: InsightX mark with a ring
     if (mark){
-      const mw = mob ? 26 : 34, s = mw / 33;
+      const s = mw / 33;
       ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(ox, oy, mw * .85, 0, 6.283); ctx.fill();
       ctx.strokeStyle = `rgba(160,145,245,${(.35 + .5 * shown).toFixed(3)})`; ctx.lineWidth = 1; ctx.stroke();
       ctx.save(); ctx.translate(ox - mw / 2, oy - mw * 26 / 66); ctx.scale(s, s); ctx.fillStyle = '#F8F1E7'; ctx.fill(mark); ctx.restore();
