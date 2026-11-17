@@ -5,10 +5,10 @@
    the zoom feels even) and glides to the mark at the heart of the mission's reach field — where the mission then
    starts to spread from. It runs over the paced step into the mission plus the first ~30% of the mission's pin,
    so the second half is scrubbed freely, like the home page TV.
-   journey → vision is the only other designed hand-over: the vision is held in place and revealed through a mosaic
-   of tiles that flips over in a ripple from the pointer, each tile flashing a glyph — the fragments the vision then
-   gathers into the mark. Every other section change is a plain scroll on purpose (mission → technology,
-   technology → journey), so the two moments that carry meaning stand out.
+   journey → vision is the only other designed hand-over: a left swipe. The roadmap already reads left → right
+   (2026 → 2027 → Beyond), so the vision arrives as the next panel along: it slides in from the right edge, led by a
+   violet line, while the journey is pushed out to the left (at a slower speed, for depth) and dims.
+   Every other section change is a plain scroll on purpose (mission → technology, technology → journey).
    A fixed overlay canvas draws the moving edges (and the mark's outline during the pull-back). Off with reduced motion. */
 (() => {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -20,7 +20,7 @@
     .map(([s, k]) => { const sec = $(s); return sec && { sec, st: sec.querySelector(k) }; }).filter(Boolean);
   const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
   const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  let px = innerWidth / 2, py = innerHeight / 2, raf = 0, W = 0, H = 0, tiles = null, tilesFor = '';
+  let px = innerWidth / 2, py = innerHeight / 2, raf = 0, W = 0, H = 0;
   const touched = new Set();
 
   addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; queue(); }, { passive: true });
@@ -33,28 +33,7 @@
   const reset = el => { if (touched.has(el)){ el.style.transform = ''; el.style.opacity = ''; el.style.clipPath = ''; el.style.webkitClipPath = ''; touched.delete(el); } };
 
   // --- the four reveals; each returns the clip path (viewport px, same as the held sticky) and draws its edge ---
-  function mosaic(o){
-    const key = `${W}x${H}`;
-    if (tilesFor !== key){
-      tilesFor = key; const size = Math.max(44, Math.round(W / 22)), cols = Math.ceil(W / size), rows = Math.ceil(H / size);
-      tiles = []; for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) tiles.push({ x: c * size, y: r * size, s: size, n: Math.random(), g: SYM[Math.random() * SYM.length | 0] });
-    }
-    const far = Math.hypot(Math.max(px, W - px), Math.max(py, H - py));
-    let d = '';
-    ctx.font = `400 ${Math.round(tiles[0].s * .32)}px ${MONO}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    for (const t of tiles){
-      const cx = t.x + t.s / 2, cy = t.y + t.s / 2, th = (Math.hypot(cx - px, cy - py) / far) * .72 + t.n * .14;
-      const k = ease(clamp((o - th) / .16));
-      if (k <= 0) continue;
-      const hs = t.s * k / 2 + .5;
-      d += `M${(cx - hs).toFixed(1)} ${(cy - hs).toFixed(1)}h${(hs * 2).toFixed(1)}v${(hs * 2).toFixed(1)}h${(-hs * 2).toFixed(1)}z`;
-      if (k < 1){ ctx.strokeStyle = `rgba(160,145,245,${(1 - k).toFixed(3)})`; ctx.lineWidth = 1; ctx.strokeRect(t.x + .5, t.y + .5, t.s - 1, t.s - 1);
-        ctx.fillStyle = `rgba(160,145,245,${(1 - k).toFixed(3)})`; ctx.fillText(t.g, cx, cy); }
-    }
-    ctx.textAlign = 'left';
-    return d ? `path('${d}')` : 'inset(0 100% 0 0)';
-  }
-  const REVEAL = [null, null, null, mosaic];          // only journey → vision; the rest scroll normally
+  const SWIPE = 3;                                    // index in S of the section that swipes in (vision); the rest scroll normally
 
   // ---- the pull-back: the outer contour of the InsightX mark (its cloud silhouette) as a clip path ----
   const markEl = document.querySelector('#ix-mark path'), markD = markEl ? markEl.getAttribute('d') : '';
@@ -130,20 +109,24 @@
       if (o0 < 1) set(mis.st, `translate3d(0,${(-(1 - o0) * vh).toFixed(1)}px,0)`, null, null); else reset(mis.st);
     } else endPull();
 
-    // in-place reveal (journey → vision)
+    // journey → vision: left swipe
     let active = -1, o = 0;
-    for (let i = 1; i < S.length; i++){
-      const v = (y + vh - S[i].sec.offsetTop) / vh;
-      if (v > 0 && v < 1 && REVEAL[i]){ active = i; o = v; break; }
-    }
+    const sw = S[SWIPE];
+    if (sw){ const v = (y + vh - sw.sec.offsetTop) / vh; if (v > 0 && v < 1){ active = SWIPE; o = v; } }
     S.forEach((s, i) => { if (i !== active && i !== active - 1 && !(pulling && i === 0)) reset(s.st); });
     if (active < 1) return;
 
-    const next = S[active], hold = (1 - o) * vh;
-    set(next.st, `translate3d(0,${(-hold).toFixed(1)}px,0)`, null, REVEAL[active](o));
-    const keep = o * vh, prev = S[active - 1].st;          // the outgoing section scrolled up by this much — push it back
-    const tf = `translate3d(0,${keep.toFixed(1)}px,0) scale(${(1 - o * .05).toFixed(4)})`;
-    set(prev, tf, (1 - o * .55).toFixed(3), null);
+    // both sections are held vertically (incoming at the top, outgoing where it was); the movement is all sideways
+    const e = ease(o), hold = (1 - o) * vh, keep = o * vh, edge = W * (1 - e);
+    set(S[active].st, `translate3d(${edge.toFixed(1)}px,${(-hold).toFixed(1)}px,0)`, null, null);
+    set(S[active - 1].st, `translate3d(${(-W * .35 * e).toFixed(1)}px,${keep.toFixed(1)}px,0)`, (1 - e * .6).toFixed(3), null);
+    // the leading edge: a violet line with a soft glow trailing into the outgoing section
+    if (edge > 1 && edge < W - 1){
+      const g = ctx.createLinearGradient(edge - 90, 0, edge, 0);
+      g.addColorStop(0, 'rgba(160,145,245,0)'); g.addColorStop(1, 'rgba(160,145,245,.14)');
+      ctx.fillStyle = g; ctx.fillRect(edge - 90, 0, 90, H);
+      ctx.fillStyle = 'rgba(160,145,245,.95)'; ctx.fillRect(edge - 1, 0, 2, H);
+    }
   }
   function queue(){ if (!raf) raf = requestAnimationFrame(update); }
   addEventListener('scroll', queue, { passive: true }); addEventListener('resize', queue);
